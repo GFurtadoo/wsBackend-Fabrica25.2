@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>  
+        <title>Criar livro</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="">
+
+    </head>
+
+    <body>
+        <h1>Cadastrar Livro</h1>
+        <form method="post">
+            {% csrf_token %} 
+            {{ livros.as_p }}
+            <button type="submit">Salvar</button>
+        </form>
+    </body>
+</html>

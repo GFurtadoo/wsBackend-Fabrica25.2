@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>  
+        <title>Deletar livro</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="">
+
+
+    </head>
+
+    <body>
+        <form method="post">
+            {% csrf_token %}
+            <p>Tem certeza que deseja deletar {{ livro.tiulo }}</p>
+            <button type="submit">Sim</button>
+            <img src="">
+        </form>
+    </body>
+</html>

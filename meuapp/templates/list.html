@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>  
+        <title>Lista de Livros</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="">
+
+
+    </head>
+
+    <body>
+        {% for livro in livros %}
+            <h1>{{ livro.titulo}}</h1>
+            <ul>
+                <li>Autor: {{ livro.autor}}</li>
+                <li>Data de Publicação: {{ livro.data_publicacao}}</li>
+            </ul>
+
+            <a href="{% url 'deletar_livro' livro.id %}">Deletar</a><br>
+            <a href="{% url 'atualizar_livro' livro.id %}">Atualizar</a><br>
+            <hr>
+        {% endfor %} 
+        <a href="{% url 'create' %}">Adicionar livro</a> <br>
+        <a href=''></a> <br>
+        <a href=''></a>
+
+
+    </body>
+</html>
