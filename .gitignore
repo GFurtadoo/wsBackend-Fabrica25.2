@@ -220,3 +220,4 @@ __marimo__/
 # Ignorar o ambiente virtual de Python venv/
 .venv/
 venv/
+meuapp/templates/atualizar.html

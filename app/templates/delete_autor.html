@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Deletar Autor</title>
+</head>
+<body>
+  <h2>Deletar autor</h2>
+  <p>Tem certeza que deseja deletar <strong>{{ autor.nome }}</strong> ?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Sim, deletar</button>
+    <a href="{% url 'listar_autores' %}">Cancelar</a>
+  </form>
+</body>
+</html>

@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Criar Autor</title>
+  <script>
+    async function buscarAutor() {
+      const nome = document.getElementById("id_nome").value;
+      if (!nome) return;
+
+      try {
+        const resp = await fetch(`https://openlibrary.org/search/authors.json?q=${encodeURIComponent(nome)}`);
+        const data = await resp.json();
+
+        if (data.docs && data.docs.length > 0) {
+          const autor = data.docs[0]; 
+          const key = autor.key;
+
+          const detResp = await fetch(`https://openlibrary.org${key}.json`);
+          const det = await detResp.json();
+
+          if (det.bio) {
+            if (typeof det.bio === "string") {
+              document.getElementById("id_biografia").value = det.bio;
+            } else if (det.bio.value) {
+              document.getElementById("id_biografia").value = det.bio.value;
+            }
+          }
+
+          let texto = (det.bio?.value || det.bio || "") + " " + (det.subjects || []).join(" ");
+          let match = texto.match(/\b(Portuguese|Brazilian|French|English|Spanish|American|German|Italian)\b/i);
+          if (match) {
+            document.getElementById("id_nacionalidade").value = match[1];
+          }
+        }
+      } catch (err) {
+        console.error("Erro ao buscar autor:", err);
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>Cadastrar Autor</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="button" onclick="buscarAutor()">Buscar dados na OpenLibrary</button>
+    <button type="submit">Salvar</button>
+  </form>
+
+  <br>
+  <a href="{% url 'listar_autores' %}">Voltar à lista</a>
+</body>
+</html> 

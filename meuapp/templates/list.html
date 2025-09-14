@@ -1,30 +1,46 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
-    <head>  
-        <title>Lista de Livros</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="">
+<html lang="pt-br">
+<head>  
+    <meta charset="utf-8">
+    <title>Lista de Livros</title>
+    <link rel="stylesheet" href="{% static 'seu_arquivo.css' %}">
+</head>
+<body>
+
+    <h1>Lista de Livros</h1>
+
+    <form method="get">
+        <input type="text" name="q" placeholder="Buscar livro na Open Library">
+        <button type="submit">Pesquisar</button>
+    </form>
 
 
-    </head>
-
-    <body>
+    <ul>
         {% for livro in livros %}
-            <h1>{{ livro.titulo}}</h1>
-            <ul>
-                <li>Autor: {{ livro.autor}}</li>
-                <li>Data de Publicação: {{ livro.data_publicacao}}</li>
-            </ul>
-
-            <a href="{% url 'deletar_livro' livro.id %}">Deletar</a><br>
-            <a href="{% url 'atualizar_livro' livro.id %}">Atualizar</a><br>
+            <li>
+                {% if livro.capa_url %}
+                    <img src="{{ livro.capa_url }}" alt="Capa de {{ livro.titulo }}" width="80">
+                {% endif %}
+                <div>
+                    <strong>{{ livro.titulo }}</strong><br>
+                    Autor: {{ livro.autor }}<br>
+                    {% if livro.data_publicacao %}
+                        Publicado em: {{ livro.data_publicacao|date:"Y" }}<br>
+                    {% endif %}
+                    <div>
+                        <a href="{% url 'deletar_livro' livro.id %}">Deletar</a> |
+                        <a href="{% url 'atualizar_livro' livro.id %}">Atualizar</a>
+                    </div>
+                </div>
+            </li>
             <hr>
-        {% endfor %} 
-        <a href="{% url 'create' %}">Adicionar livro</a> <br>
-        <a href=''></a> <br>
-        <a href=''></a>
+        {% empty %}
+            <li>Nenhum livro cadastrado.</li>
+        {% endfor %}
+    </ul>
 
+    <a href="{% url 'create' %}">Adicionar livro</a>
 
-    </body>
+</body>
 </html>

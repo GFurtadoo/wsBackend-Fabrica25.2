@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Autores</title>
+</head>
+<body>
+  <h1>Autores</h1>
+
+  <form method="get">
+    <input type="text" name="q" placeholder="Pesquisar autores (Open Library)">
+    <button type="submit">Buscar</button>
+    <a href="{% url 'criar_autor' %}">Criar Autor manualmente</a>
+  </form>
+
+  <hr>
+
+  {% for autor in autores %}
+    <div style="margin-bottom:20px; border-bottom:1px solid #ddd;">
+      <h2>{{ autor.nome }}</h2>
+      <p><strong>Nacionalidade:</strong> {{ autor.nacionalidade|default:"(não disponível)" }}</p>
+      <p>{{ autor.biografia|default:"(sem biografia)"|truncatechars:300 }}</p>
+      <a href="{% url 'atualizar_autor' autor.pk %}">Editar</a> |
+      <a href="{% url 'deletar_autor' autor.pk %}">Deletar</a>
+    </div>
+  {% empty %}
+    <p>Nenhum autor cadastrado.</p>
+  {% endfor %}
+
+  <br>
+  <a href="{% url 'home_autores' %}">Voltar para Home Autores</a>
+</body>
+</html>
