@@ -1,8 +1,7 @@
 from django import forms
-from .models import Livros
+from .models import Livro
 
 class LivroForm(forms.ModelForm):
     class Meta:
-        model = Livros
-        fields = ['titulo', 'autor', 'data_publicacao', ]
-       
+        model = Livro
+        fields = ['titulo', 'autor', 'categoria', 'data_publicacao', 'descricao']

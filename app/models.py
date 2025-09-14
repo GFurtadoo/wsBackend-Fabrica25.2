@@ -5,6 +5,7 @@ class Autor(models.Model):
     biografia = models.TextField('Biografia', blank=True, null=True)
     nacionalidade = models.CharField('Nacionalidade', max_length=100, blank=True, null=True)
     olid = models.CharField('OLID (OpenLibrary)', max_length=50, blank=True, null=True, unique=True)
+    foto_url = models.URLField('Foto', blank=True, null=True)  # Adicione esta linha
 
     def __str__(self):
         return self.nome

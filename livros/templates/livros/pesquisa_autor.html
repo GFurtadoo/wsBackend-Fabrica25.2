@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pesquisa por Autor</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <h1>Pesquisa por Autor</h1>
+    <form method="get">
+        <input type="text" name="autor" placeholder="Nome do autor">
+        <button type="submit">Pesquisar</button>
+    </form>
+    {% if autor_nome %}
+        <h2>Livros de {{ autor_nome }}</h2>
+        <ul>
+        {% for livro in livros %}
+            <li>
+                {{ livro.titulo }}<br>
+                Categoria: {{ livro.categoria.nome }}<br>
+                {% if livro.categoria.foto %}
+                    <img src="{{ livro.categoria.foto.url }}" alt="Foto do livro" width="120">
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>Nenhum livro encontrado.</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>

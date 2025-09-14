@@ -1,9 +1,11 @@
-
 <!DOCTYPE html>
+{% load static %}
+
 <html>
 <head>
   <meta charset="utf-8">
   <title>Criar Autor</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
   <script>
     async function buscarAutor() {
       const nome = document.getElementById("id_nome").value;
@@ -20,6 +22,7 @@
           const detResp = await fetch(`https://openlibrary.org${key}.json`);
           const det = await detResp.json();
 
+          // Biografia
           if (det.bio) {
             if (typeof det.bio === "string") {
               document.getElementById("id_biografia").value = det.bio;
@@ -28,10 +31,18 @@
             }
           }
 
+          // Nacionalidade
           let texto = (det.bio?.value || det.bio || "") + " " + (det.subjects || []).join(" ");
           let match = texto.match(/\b(Portuguese|Brazilian|French|English|Spanish|American|German|Italian)\b/i);
           if (match) {
             document.getElementById("id_nacionalidade").value = match[1];
+          }
+
+          // Foto
+          if (det.photos && det.photos.length > 0) {
+            const fotoId = det.photos[0];
+            const fotoUrl = `https://covers.openlibrary.org/b/id/${fotoId}-M.jpg`;
+            document.getElementById("id_foto_url").value = fotoUrl;
           }
         }
       } catch (err) {
@@ -45,6 +56,8 @@
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
+    <label for="id_foto_url">Foto:</label>
+    <input type="url" id="id_foto_url" name="foto_url">
     <button type="button" onclick="buscarAutor()">Buscar dados na OpenLibrary</button>
     <button type="submit">Salvar</button>
   </form>
@@ -52,4 +65,4 @@
   <br>
   <a href="{% url 'listar_autores' %}">Voltar à lista</a>
 </body>
-</html> 
+</html>
